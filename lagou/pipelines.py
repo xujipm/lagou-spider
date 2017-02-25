@@ -8,13 +8,16 @@
 from lagou.items import JobsPositionItem, JobDetailItem, CompanyItem
 import pymysql
 from scrapy.exceptions import DropItem
+from configparser import ConfigParser
 
 
 class LagouPipeline(object):
-    host = '~'
-    db = '~'
-    usr = '~'
-    passwd = '~'
+    cfg = ConfigParser()
+    cfg.read('config.py')
+    host = cfg.get('db-server', 'host')
+    db = cfg.get('db-server', 'db')
+    usr = cfg.get('db-server', 'usr')
+    passwd = cfg.get('db-server', 'passwd')
 
     def __init__(self):
         self.cursor = ""
