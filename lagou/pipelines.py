@@ -13,7 +13,10 @@ from configparser import ConfigParser
 
 class LagouPipeline(object):
     cfg = ConfigParser()
-    cfg.read('config.py')
+    try:
+        cfg.read('local_config.py')
+    except:
+        cfg.read('config.py')
     host = cfg.get('db-server', 'host')
     db = cfg.get('db-server', 'db')
     usr = cfg.get('db-server', 'usr')
