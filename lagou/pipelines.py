@@ -14,9 +14,9 @@ from configparser import ConfigParser
 class LagouPipeline(object):
     cfg = ConfigParser()
     try:
-        cfg.read('local_config.py')
+        cfg.read('lagou/local_config.py')
     except:
-        cfg.read('config.py')
+        cfg.read('lagou/config.py')
     host = cfg.get('db-server', 'host')
     db = cfg.get('db-server', 'db')
     usr = cfg.get('db-server', 'usr')
