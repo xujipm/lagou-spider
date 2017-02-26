@@ -26,9 +26,9 @@ class HttpProxyMiddleware(object):
         # 保存上次不用代理直接连接的时间点
         self.last_no_proxy_time = datetime.now()
         # 一定分钟数后切换回不用代理, 因为用代理影响到速度
-        self.recover_interval = 20
+        self.recover_interval = 5
         # 一个proxy如果没用到这个数字就被发现老是超时, 则永久移除该proxy. 设为0则不会修改代理文件.
-        self.dump_count_threshold = 20
+        self.dump_count_threshold = 10
         # 存放代理列表的文件, 每行一个代理, 格式为ip:port, 注意没有http://, 而且这个文件会被修改, 注意备份
         self.proxy_file = "proxyes.dat"
         # 是否在超时的情况下禁用代理

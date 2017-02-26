@@ -112,7 +112,7 @@ DOWNLOADER_MIDDLEWARES = {
 #    'scrapy.extensions.telnet.TelnetConsole': None,
 #}
 
-DOWNLOAD_TIMEOUT = 10           # 10-15 second is an experienmental reasonable timeout
+# DOWNLOAD_TIMEOUT = 10           # 10-15 second is an experienmental reasonable timeout
 
 # Configure item pipelines
 # See http://scrapy.readthedocs.org/en/latest/topics/item-pipeline.html
