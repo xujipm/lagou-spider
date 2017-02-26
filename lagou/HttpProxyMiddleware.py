@@ -48,9 +48,9 @@ class HttpProxyMiddleware(object):
         # 上一次抓新代理的时间
         self.last_fetch_proxy_time = datetime.now()
         # 每隔固定时间强制抓取新代理(min)
-        self.fetch_proxy_interval = 120
+        self.fetch_proxy_interval = 1
         # 一个将被设为invalid的代理如果已经成功爬取大于这个参数的页面， 将不会被invalid
-        self.invalid_proxy_threshold = 200
+        self.invalid_proxy_threshold = 2000
         # 从文件读取初始代理
         self.fetch_new_proxyes()
         if os.path.exists(self.proxy_file):
