@@ -26,7 +26,7 @@ class LagouPipeline(object):
         self.cursor = ""
         self.conn = ""
 
-    def open_spider(self, spider):
+    def open_db(self):
         self.conn = pymysql.connect(host=self.host,
                                     user=self.usr,
                                     password=self.passwd,
@@ -36,7 +36,7 @@ class LagouPipeline(object):
                                     cursorclass=pymysql.cursors.DictCursor)
         self.cursor = self.conn.cursor()
 
-    def close_spider(self, spider):
+    def close_db(self):
         self.cursor.close()
         self.conn.close()
 
@@ -56,8 +56,10 @@ class LagouPipeline(object):
             sqlValues = sqlValues + "%(" + k + ")s, "
             dic[k] = str(item[k])
         sql = sql[:-2] + sqlValues[:-2] + ")"
+        self.open_db()
         self.cursor.execute(sql, dic)
         self.conn.commit()
+        self.close_db()
         raise DropItem()
 
         return item

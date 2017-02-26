@@ -77,7 +77,7 @@ class LagouspiderSpider(scrapy.Spider):
                         else:
                             self.logger.info("不错哟～，全部抓取完毕")
                             self.isEnd = True
-                if self.isEnd:
+                if not self.isEnd:
                     yield FormRequest(url="https://www.lagou.com/jobs/positionAjax.json?" +
                                       "px=default&city=" + self.city +
                                       "&needAddtionalResult=false",
