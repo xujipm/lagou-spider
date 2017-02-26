@@ -47,6 +47,9 @@ class LagouspiderSpider(scrapy.Spider):
                               callback=self.jobDetail_parse)
             totalCount = jdata['content']['positionResult']['totalCount']
             resultSize = jdata['content']['positionResult']['resultSize']
+            # TODO 暂不清楚为啥会有0，为0的时候先强制修改为15好了
+            if resultSize == 0:
+                resultSize = 15
             self.pn = self.pn + 1
 
             if self.pn - 1 > totalCount / resultSize:
