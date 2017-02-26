@@ -92,7 +92,7 @@ class HttpProxyMiddleware(object):
         """
         print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
         logger.info("extending proxyes using fetch_free_proxyes.py")
-        webdData = requests.get("http://tvp.daxiangdaili.com/ip/?tid=556115944165718&num=50&operator=1&delay=3&category=2&foreign=none&filter=on&format=json")
+        webdData = requests.get("http://tvp.daxiangdaili.com/ip/?tid=556115944165718&num=50&operator=1&delay=3&category=2&protocol=https&sortby=time&foreign=none&filter=on&format=json")
         # webdData = requests.get("http://tvp.daxiangdaili.com/ip/?tid=556115944165718&num=5&operator=1&delay=3&category=2&foreign=none&format=json")
         jd = json.loads(webdData.text)
         new_proxyes = []
