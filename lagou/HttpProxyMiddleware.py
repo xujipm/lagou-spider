@@ -7,6 +7,8 @@ import requests
 from datetime import datetime, timedelta
 from twisted.web._newclient import ResponseNeverReceived
 from twisted.internet.error import TimeoutError, ConnectionRefusedError, ConnectError
+from scrapy.core.downloader.handlers.http11 import TunnelError
+
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
@@ -92,12 +94,13 @@ class HttpProxyMiddleware(object):
         """
         print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
         logger.info("extending proxyes using fetch_free_proxyes.py")
-        webdData = requests.get("http://tvp.daxiangdaili.com/ip/?tid=556115944165718&num=10&operator=1&delay=3&category=2&protocol=https&sortby=time&foreign=none&filter=on&format=json")
+        webdData = requests.get(
+            "http://tvp.daxiangdaili.com/ip/?tid=556115944165718&num=10&operator=1&delay=3&category=2&protocol=https&sortby=time&foreign=none&filter=on&format=json")
         # webdData = requests.get("http://tvp.daxiangdaili.com/ip/?tid=556115944165718&num=5&operator=1&delay=3&category=2&foreign=none&format=json")
         jd = json.loads(webdData.text)
         new_proxyes = []
         for i in jd:
-            proxy = "%s:%s" % (i['host'],i['port'])
+            proxy = "%s:%s" % (i['host'], i['port'])
             new_proxyes.append(proxy)
         logger.info("new proxyes: %s" % new_proxyes)
         self.last_fetch_proxy_time = datetime.now()
@@ -257,12 +260,15 @@ class HttpProxyMiddleware(object):
         request_proxy_index = request.meta["proxy_index"]
 
         # 只有当proxy_index>fixed_proxy-1时才进行比较, 这样能保证至少本地直连是存在的.
-        if isinstance(exception, self.DONT_RETRY_ERRORS):
+        if isinstance(exception, self.DONT_RETRY_ERRORS) \
+                or isinstance(exception, self.EXCEPTIONS_TO_RETRY) \
+                or isinstance(exception, TunnelError):
             if request_proxy_index > self.fixed_proxy - 1 and self.invalid_proxy_flag:  # WARNING 直连时超时的话换个代理还是重试? 这是策略问题
                 if self.proxyes[request_proxy_index]["count"] < self.invalid_proxy_threshold:
                     self.invalid_proxy(request_proxy_index)
-                elif request_proxy_index == self.proxy_index: 
-                    self.invalid_proxy(request_proxy_index) # 虽然超时，但是如果之前一直很好用，也不设为invalid
+                elif request_proxy_index == self.proxy_index:
+                    # 虽然超时，但是如果之前一直很好用，也不设为invalid
+                    self.invalid_proxy(request_proxy_index)
                     # self.inc_proxy_index()
             else:               # 简单的切换而不禁用
                 if request.meta["proxy_index"] == self.proxy_index:
@@ -270,3 +276,6 @@ class HttpProxyMiddleware(object):
             new_request = request.copy()
             new_request.dont_filter = True
             return new_request
+        if ( isinstance(exception, self.EXCEPTIONS_TO_RETRY) or isinstance(exception, TunnelError) ) \
+                and 'dont_retry' not in request.meta:
+            return self._retry(request, exception, spider)
