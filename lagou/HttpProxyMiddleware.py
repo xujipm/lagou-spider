@@ -261,8 +261,9 @@ class HttpProxyMiddleware(object):
             if request_proxy_index > self.fixed_proxy - 1 and self.invalid_proxy_flag:  # WARNING 直连时超时的话换个代理还是重试? 这是策略问题
                 if self.proxyes[request_proxy_index]["count"] < self.invalid_proxy_threshold:
                     self.invalid_proxy(request_proxy_index)
-                elif request_proxy_index == self.proxy_index:  # 虽然超时，但是如果之前一直很好用，也不设为invalid
-                    self.inc_proxy_index()
+                elif request_proxy_index == self.proxy_index: 
+                    self.invalid_proxy(request_proxy_index) # 虽然超时，但是如果之前一直很好用，也不设为invalid
+                    # self.inc_proxy_index()
             else:               # 简单的切换而不禁用
                 if request.meta["proxy_index"] == self.proxy_index:
                     self.inc_proxy_index()
