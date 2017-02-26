@@ -77,7 +77,7 @@ class LagouspiderSpider(scrapy.Spider):
                         else:
                             self.logger.info("不错哟～，全部抓取完毕")
                             self.isEnd = True
-                if not self.isEnd:
+                if self.isEnd:
                     yield FormRequest(url="https://www.lagou.com/jobs/positionAjax.json?" +
                                       "px=default&city=" + self.city +
                                       "&needAddtionalResult=false",
@@ -93,7 +93,6 @@ class LagouspiderSpider(scrapy.Spider):
 
     def jobDetail_parse(self, response):
         try:
-            self.deal_jobDetail_parse(response)
             jobDetailItem = JobDetailItem()
             jobDetailItem['jobs_positionId'] = response.xpath('//*[@id="jobid"]/@value').extract()[0]
             jobDetailItem['jobs_description'] = response.xpath('//*[@id="job_detail"]/dd[2]/div').extract()[0]
