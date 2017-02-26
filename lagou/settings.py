@@ -96,11 +96,13 @@ DEFAULT_REQUEST_HEADERS = {
 # DOWNLOADER_MIDDLEWARES = {
 #    'lagou.middlewares.MyCustomDownloaderMiddleware': 543,
 #}
+
 DOWNLOADER_MIDDLEWARES = {
     # 'tbs.middlewares.MyCustomDownloaderMiddleware': 543,
     'lagou.middlewares.RandomUserAgent': 1,
     'scrapy.contrib.downloadermiddleware.httpproxy.HttpProxyMiddleware': 110,
     #'scrapy.downloadermiddlewares.useragent.UserAgentMiddleware': None,
+    'lagou.HttpProxyMiddleware.HttpProxyMiddleware': 100,
     #'lagou.middlewares.ProxyMiddleware': 100,
 }
 

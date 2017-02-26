@@ -29,6 +29,7 @@ class RandomUserAgent(object):
 
 class ProxyMiddleware(object):
     def process_request(self, request, spider):
+        # http://tvp.daxiangdaili.com/ip/?tid=556115944165718&num=50&operator=1&delay=3&category=2&foreign=none&filter=on
         proxy = random.choice(PROXIES)
         if proxy['user_pass'] is not None:
             request.meta['proxy'] = "http://%s" % proxy['ip_port']
