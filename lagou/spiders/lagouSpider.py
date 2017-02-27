@@ -96,7 +96,7 @@ class LagouspiderSpider(scrapy.Spider):
             jobDetailItem = JobDetailItem()
             jobDetailItem['jobs_positionId'] = response.xpath('//*[@id="jobid"]/@value').extract()[0]
             jobDetailItem['jobs_description'] = response.xpath('//*[@id="job_detail"]/dd[2]/div').extract()[0]
-            jobDetailItem['jobs_addr'] = response.xpath('//*[@id="job_detail"]/dd[2]/div').extract()[0]
+            jobDetailItem['jobs_addr'] = response.xpath('//*[@id="job_detail"]/dd[3]/div').extract()[0]
             jobDetailItem['jobs_positionLng'] = response.xpath('//*[@id="job_detail"]/dd[3]/input[1]/@value').extract()[0]
             jobDetailItem['jobs_positionLat'] = response.xpath('//*[@id="job_detail"]/dd[3]/input[2]/@value').extract()[0]
             jobDetailItem['jobs_positionAddress'] = response.xpath('//*[@id="job_detail"]/dd[3]/input[3]/@value').extract()[0]

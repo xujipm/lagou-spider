@@ -276,6 +276,3 @@ class HttpProxyMiddleware(object):
             new_request = request.copy()
             new_request.dont_filter = True
             return new_request
-        if ( isinstance(exception, self.EXCEPTIONS_TO_RETRY) or isinstance(exception, TunnelError) ) \
-                and 'dont_retry' not in request.meta:
-            return self._retry(request, exception, spider)
