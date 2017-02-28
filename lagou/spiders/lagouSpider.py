@@ -12,7 +12,7 @@ class LagouspiderSpider(scrapy.Spider):
     name = "lagou"
     allowed_domains = ["lagou.com"]
     # start_urls = ['http://lagou.com/']
-    keywords = ["产品经理", "数据产品经理"]
+    keywords = ["产品经理"]
     citys = ["成都", "北京", "厦门"]
     citys = ["全国"]
     first = "true"
