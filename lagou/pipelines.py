@@ -5,7 +5,7 @@
 # Don't forget to add your pipeline to the ITEM_PIPELINES setting
 # See: http://doc.scrapy.org/en/latest/topics/item-pipeline.html
 
-from lagou.items import JobsPositionItem, JobDetailItem, CompanyItem
+from lagou.items import JobsPositionItem, JobDetailItem, CompanyItem, InterviewItem
 import pymysql
 from scrapy.exceptions import DropItem
 from configparser import ConfigParser
@@ -45,6 +45,8 @@ class LagouPipeline(object):
             table = "job"
         elif isinstance(item, JobDetailItem):
             table = "job_detail"
+        elif isinstance(item, InterviewItem):
+            table = "interview"
         elif isinstance(item, CompanyItem):
             pass
 

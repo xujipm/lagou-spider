@@ -80,7 +80,7 @@ DEFAULT_REQUEST_HEADERS = {
     'DNT': '1',
     'Accept-Encoding': 'gzip, deflate, sdch',
     'Accept-Language': 'zh-CN,zh;q=0.8,en;q=0.6,es;q=0.4,zh-TW;q=0.2,ja;q=0.2',
-    'Cookie': 'user_trace_token=20170222162246-807599af87414a849f14176e51fcd8ac; LGUID=20170222162247-17a27898-f8d8-11e6-86a3-525400f775ce; SEARCH_ID=a7404ddd64e941e1aa261c4c829080bc; TG-TRACK-CODE=index_user; _gat=1; PRE_UTM=; PRE_HOST=mail.qq.com; PRE_SITE=https%3A%2F%2Fmail.qq.com%2F; PRE_LAND=https%3A%2F%2Fwww.lagou.com%2Fresume%2FlandingPage.html; JSESSIONID=9B4FE01292432EAF5169718D86DD0CBD; showExpriedIndex=1; showExpriedCompanyHome=1; showExpriedMyPublish=1; hasDeliver=0; _putrc=FB0A24781548F2EB; login=true; unick=devxujipm.com; index_location_city=%E6%88%90%E9%83%BD; Hm_lvt_4233e74dff0ae5bd0a3d81c6ccf756e6=1487942739,1487998689,1488023867,1488024508; Hm_lpvt_4233e74dff0ae5bd0a3d81c6ccf756e6=1488024616; _ga=GA1.2.573748091.1487751767; LGSID=20170225200828-1dcf9b8e-fb53-11e6-8c8a-525400f775ce; LGRID=20170225201016-5e7d4530-fb53-11e6-8c8a-525400f775ce',
+    'Cookie': 'user_trace_token=20170222162246-807599af87414a849f14176e51fcd8ac; LGUID=20170222162247-17a27898-f8d8-11e6-86a3-525400f775ce; JSESSIONID=85AE423CB031F7272EB7EBA393B3D8A0; _putrc=FB0A24781548F2EB; login=true; unick=devxujipm.com; showExpriedIndex=1; showExpriedCompanyHome=1; showExpriedMyPublish=1; hasDeliver=0; TG-TRACK-CODE=search_code; SEARCH_ID=e1a443955dc64a71b6b5ab97470498b4; index_location_city=%E5%8C%97%E4%BA%AC; _gat=1; Hm_lvt_4233e74dff0ae5bd0a3d81c6ccf756e6=1488023867,1488024508,1488086724,1488261031; Hm_lpvt_4233e74dff0ae5bd0a3d81c6ccf756e6=1488264548; _ga=GA1.2.573748091.1487751767; LGSID=20170228135031-d0e95843-fd79-11e6-9037-5254005c3644; LGRID=20170228144908-00aadd00-fd82-11e6-9366-525400f775ce',
 
     }
 
@@ -102,7 +102,7 @@ DOWNLOADER_MIDDLEWARES = {
     'lagou.middlewares.RandomUserAgent': 1,
     'scrapy.contrib.downloadermiddleware.httpproxy.HttpProxyMiddleware': 110,
     #'scrapy.downloadermiddlewares.useragent.UserAgentMiddleware': None,
-    'lagou.HttpProxyMiddleware.HttpProxyMiddleware': 100,
+    # 'lagou.HttpProxyMiddleware.HttpProxyMiddleware': 100,
     #'lagou.middlewares.ProxyMiddleware': 100,
 }
 

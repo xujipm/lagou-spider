@@ -69,3 +69,48 @@ CREATE TABLE `job` (
 
 LOCK TABLES `job` WRITE;
 UNLOCK TABLES;
+
+
+
+DROP TABLE IF EXISTS `interview`;
+CREATE TABLE `interview` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `i_positionId` int(20) unsigned DEFAULT NULL,
+  `i_tagArray` char(255) DEFAULT NULL,
+  `i_id` int(20) unsigned DEFAULT NULL,
+  `i_portrait` char(255) DEFAULT NULL,
+  `i_username` char(255) DEFAULT NULL,
+  `i_userId` int(20) unsigned DEFAULT NULL,
+  `i_isAnonymous` char(255) DEFAULT NULL,
+  `i_isInterview` char(255) DEFAULT NULL,
+  `i_noInterviewReason` char(255) DEFAULT NULL,
+  `i_noInterviewType` char(255) DEFAULT NULL,
+  `i_usefulCount` char(255) DEFAULT NULL,
+  `i_myScore` char(255) DEFAULT NULL,
+  `i_describeScore` char(255) DEFAULT NULL,
+  `i_interviewerScore` char(255) DEFAULT NULL,
+  `i_companyScore` char(255) DEFAULT NULL,
+  `i_comprehensiveScore` char(255) DEFAULT NULL,
+  `i_content` text,
+  `i_evaluation` char(255) DEFAULT NULL,
+  `i_positionName` char(255) DEFAULT NULL,
+  `i_companyName` char(255) DEFAULT NULL,
+  `i_positionType` char(255) DEFAULT NULL,
+  `i_hrId` int(20) unsigned DEFAULT NULL,
+  `i_orderId` int(20) unsigned DEFAULT NULL,
+  `i_companyId` int(20) unsigned DEFAULT NULL,
+  `i_replyCount` char(255) DEFAULT NULL,
+  `i_isAllowReply` char(255) DEFAULT NULL,
+  `i_tags` char(255) DEFAULT NULL,
+  `i_type` char(255) DEFAULT NULL,
+  `i_status` char(255) DEFAULT NULL,
+  `i_source` char(255) DEFAULT NULL,
+  `i_createTime` char(255) DEFAULT NULL, 
+  `time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+
+LOCK TABLES `interview` WRITE;
+UNLOCK TABLES;
+

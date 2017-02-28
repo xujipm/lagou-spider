@@ -4,7 +4,7 @@
 import scrapy
 import json
 from scrapy.http import FormRequest, Request
-from lagou.items import JobsPositionItem, JobDetailItem
+from lagou.items import JobsPositionItem, JobDetailItem, InterviewItem
 
 
 class LagouspiderSpider(scrapy.Spider):
@@ -14,6 +14,7 @@ class LagouspiderSpider(scrapy.Spider):
     # start_urls = ['http://lagou.com/']
     keywords = ["产品经理", "数据产品经理"]
     citys = ["成都", "北京", "厦门"]
+    citys = ["全国"]
     first = "true"
     pn = 1
     kdFlag = 0
@@ -33,7 +34,6 @@ class LagouspiderSpider(scrapy.Spider):
     def job_parse(self, response):
         self.logger.info("获取到：job_parse(self, response)")
         try:
-            self.logger.info("我错了try")
             jdata = json.loads(response.text)
             if not(jdata['success']):
                 self.logger.error('jobs获取失败')
@@ -48,6 +48,11 @@ class LagouspiderSpider(scrapy.Spider):
                     yield Request(url="https://www.lagou.com/jobs/" +
                                   str(result['positionId']) + ".html",
                                   callback=self.jobDetail_parse)
+                    yield FormRequest(url="https://www.lagou.com/interview/experience/byPosition.json",
+                                      formdata={'positionId':
+                                                str(result['positionId']),
+                                                'pageSize': '500'},
+                                      callback=self.interview_parse)
                 totalCount = jdata['content']['positionResult']['totalCount']
                 resultSize = jdata['content']['positionResult']['resultSize']
                 # TODO 暂不清楚为啥会有0，为0的时候先强制修改为15好了
@@ -78,6 +83,7 @@ class LagouspiderSpider(scrapy.Spider):
                             self.logger.info("不错哟～，全部抓取完毕")
                             self.isEnd = True
                 if not self.isEnd:
+                # if self.isEnd: # 测试的时候开启这行，只抓取第一页
                     yield FormRequest(url="https://www.lagou.com/jobs/positionAjax.json?" +
                                       "px=default&city=" + self.city +
                                       "&needAddtionalResult=false",
@@ -94,18 +100,46 @@ class LagouspiderSpider(scrapy.Spider):
     def jobDetail_parse(self, response):
         try:
             jobDetailItem = JobDetailItem()
-            jobDetailItem['jobs_positionId'] = response.xpath('//*[@id="jobid"]/@value').extract()[0]
-            jobDetailItem['jobs_description'] = response.xpath('//*[@id="job_detail"]/dd[2]/div').extract()[0]
-            jobDetailItem['jobs_addr'] = response.xpath('//*[@id="job_detail"]/dd[3]/div').extract()[0]
-            jobDetailItem['jobs_positionLng'] = response.xpath('//*[@id="job_detail"]/dd[3]/input[1]/@value').extract()[0]
-            jobDetailItem['jobs_positionLat'] = response.xpath('//*[@id="job_detail"]/dd[3]/input[2]/@value').extract()[0]
-            jobDetailItem['jobs_positionAddress'] = response.xpath('//*[@id="job_detail"]/dd[3]/input[3]/@value').extract()[0]
+            jobDetailItem['jobs_positionId'] = response.xpath(
+                '//*[@id="jobid"]/@value').extract()[0]
+            jobDetailItem['jobs_description'] = response.xpath(
+                '//*[@id="job_detail"]/dd[2]/div').extract()[0]
+            jobDetailItem['jobs_addr'] = response.xpath(
+                '//*[@id="job_detail"]/dd[2]/div').extract()[0]
+            jobDetailItem['jobs_positionLng'] = response.xpath(
+                '//*[@id="job_detail"]/dd[3]/input[1]/@value').extract()[0]
+            jobDetailItem['jobs_positionLat'] = response.xpath(
+                '//*[@id="job_detail"]/dd[3]/input[2]/@value').extract()[0]
+            jobDetailItem['jobs_positionAddress'] = response.xpath(
+                '//*[@id="job_detail"]/dd[3]/input[3]/@value').extract()[0]
             yield jobDetailItem
         except:
             yield Request(url=response.url,
                           meta={"change_proxy": True},
                           callback=self.jobDetail_parse)
 
-
     def company_parse(self, response):
+        # TODO 公司数据抓取
+        pass
+
+    def interview_parse(self, response):
+        try:
+            # TODO
+            jdata = json.loads(response.text)
+            if not(jdata['message'] == "操作成功"):
+                self.logger.error('jobs获取失败')
+            else:
+                print("@@@@@@@@@ 开始抓取评价详情 @@@@@@")
+                for result in jdata['content']['data']['data']['result']:
+                    interviewItem = InterviewItem()
+                    for k in result:
+                        # self.logger.info(k + ": " + str(result[k]))
+                        # jobsItem.add_value(k, result[k]) ## 不知道啥不能用了
+                        interviewItem['i_' + k] = result[k]
+                    yield interviewItem
+        except:
+            yield Request(url=response.url,
+                          formdata=response.formdata,
+                          meta={"change_proxy": True},
+                          callback=self.interview_parse)
         pass
