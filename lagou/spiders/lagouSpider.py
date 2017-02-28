@@ -83,7 +83,7 @@ class LagouspiderSpider(scrapy.Spider):
                             self.logger.info("不错哟～，全部抓取完毕")
                             self.isEnd = True
                 if not self.isEnd:
-                # if self.isEnd: # 测试的时候开启这行，只抓取第一页
+                    # if self.isEnd: # 测试的时候开启这行，只抓取第一页
                     yield FormRequest(url="https://www.lagou.com/jobs/positionAjax.json?" +
                                       "px=default&city=" + self.city +
                                       "&needAddtionalResult=false",
@@ -138,8 +138,8 @@ class LagouspiderSpider(scrapy.Spider):
                         interviewItem['i_' + k] = result[k]
                     yield interviewItem
         except:
-            yield Request(url=response.url,
-                          formdata=response.formdata,
-                          meta={"change_proxy": True},
-                          callback=self.interview_parse)
+            yield FormRequest(url=response.url,
+                              formdata=response.formdata,
+                              meta={"change_proxy": True},
+                              callback=self.interview_parse)
         pass
